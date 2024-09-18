@@ -7,7 +7,7 @@ servers:
   - url: https://ernstyoung.customers.us1.vantage.nozominetworks.io
     description: Nozomi API Server
 paths:
-  /api/open/query/do?query=alerts | exclude bpf_filter properties description | where time >= hours_ago(24) | where !is_incident | where risk >= 7:
+  /api/open/query/do?query=alerts:
     get:
       operationId: getAlerts
       summary: Retreave alerts from API
