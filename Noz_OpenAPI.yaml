@@ -15,21 +15,6 @@ paths:
       tags:
         - Alerts
       parameters:
-        - in: query
-          name: filter
-          schema:
-            type: string
-          description: Filter conditions for alerts
-        - in: query
-          name: sort
-          schema:
-            type: string
-          description: Sort order for alerts
-        - in: query
-          name: limit
-          schema:
-            type: integer
-          description: Maximum number of alerts to retrieve
       responses:
         '200':
           description: Successful response
