@@ -1,43 +1,29 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
   title: Nozomi Alerts API
-  version: 1.0.0
   description: OpenAPI specification for the Nozomi Alerts API
-
+  version: 1.0.0
 servers:
   - url: https://ernstyoung.customers.us1.vantage.nozominetworks.io
-
+    description: Nozomi API Server
 paths:
-  /api/open/query/do:
+  /api/open/query/do?query=alerts | exclude bpf_filter properties description | where time >= hours_ago(24) | where !is_incident | where risk >= 7:
     get:
-      summary: Retrieve alerts
-      operationId: getAlerts
-      tags:
-        - Alerts
+      operationId: getPointData
+      summary: Retreave alerts from API
       parameters:
       responses:
         '200':
-          description: Successful response
+          description: Successfully retrieved alerts
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  metadata:
+                  properties:
                     type: object
-                  resources:
-                    type: array
-                    items:
-                      type: object
-        '400':
-          description: Bad request
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-        '500':
-          description: Internal server error
-
+                    properties:
+                      
 components:
   securitySchemes:
     bearerAuth:
