@@ -9,17 +9,141 @@ servers:
 paths:
   /api/open/query/do?query=alerts | exclude bpf_filter properties description | where time >= hours_ago(24) | where !is_incident | where risk >= 7:
     get:
-      operationId: getPointData
+      operationId: getAlerts
       summary: Retreave alerts from API
       parameters:
       responses:
         '200':
-          description: Successfully retrieved alerts
+          description: A list of repairs
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  properties:
-                    type: object
-                    properties:
+                type: array
+              examples:
+                example1:
+                  value:
+                    [
+                      "result": [
+                        {
+                            "time": 1726613676549,
+                            "name": "New link group",
+                            "type_name": "New link group",
+                            "threat_name": "",
+                            "type_id": "VI:NEW-LINK-GROUP",
+                            "counter": 1,
+                            "ack": false,
+                            "note": null,
+                            "risk": 7.5,
+                            "id_src": "fe80::42b9:1cb3:bba:6189",
+                            "id_dst": "ff02::c",
+                            "ip_src": "fe80::42b9:1cb3:bba:6189",
+                            "ip_src:info": null,
+                            "ip_dst": "ff02::c",
+                            "ip_dst:info": null,
+                            "status": "open",
+                            "mac_src": "1c:83:41:41:7e:dc",
+                            "mac_dst": "33:33:00:00:00:0c",
+                            "port_dst": 3702,
+                            "port_src": 63180,
+                            "session_id": "56710fe80::42b9:1cb3:bba:6189ff02::cf6cce761920231e205",
+                            "protocol": "other",
+                            "transport_protocol": "udp",
+                            "severity": 10,
+                            "zone_dst": "Undefined",
+                            "zone_src": "Undefined",
+                            "dst_roles": "other",
+                            "src_roles": "other",
+                            "label_dst": null,
+                            "label_src": "EY-Opscura-MxD",
+                            "closed_time": 0,
+                            "close_option": null,
+                            "is_incident": false,
+                            "is_security": true,
+                            "created_time": 1726613676549,
+                            "trigger_type": null,
+                            "trigger_id": null,
+                            "capture_device": "em1",
+                            "sec_profile_visible": true,
+                            "grouped_visible": false,
+                            "mitre_attack_techniques": null,
+                            "mitre_attack_tactics": null,
+                            "playbook_contents": null,
+                            "trace_status": null,
+                            "appliance_host": "EY-MXD-TRipper.local",
+                            "appliance_ip": null,
+                            "record_created_at": 1726617852338,
+                            "sensor:host": null,
+                            "site:name": null,
+                            "parents": [
+                                "9c8b62ca-b6c8-4a8b-af2b-81578f7c8301"
+                            ],
+                            "custom_fields_src": {},
+                            "custom_fields_dst": {}
+                        }],
+                        "header": {
+                            "time",
+                            "name",
+                            "type_name",
+                            "threat_name",
+                            "type_id",
+                            "counter",
+                            "ack",
+                            "note",
+                            "risk",
+                            "id_src",
+                            "id_dst",
+                            "ip_src",
+                            "ip_src:info",
+                            "ip_dst",
+                            "ip_dst:info",
+                            "status",
+                            "mac_src",
+                            "mac_dst",
+                            "port_dst",
+                            "port_src",
+                            "session_id",
+                            "protocol",
+                            "transport_protocol",
+                            "severity",
+                            "zone_dst",
+                            "zone_src",
+                            "dst_roles",
+                            "src_roles",
+                            "label_dst",
+                            "label_src",
+                            "closed_time",
+                            "close_option",
+                            "is_incident",
+                            "is_security",
+                            "created_time",
+                            "trigger_type",
+                            "trigger_id",
+                            "capture_device",
+                            "sec_profile_visible",
+                            "grouped_visible",
+                            "mitre_attack_techniques",
+                            "mitre_attack_tactics",
+                            "playbook_contents",
+                            "trace_status",
+                            "appliance_host",
+                            "appliance_ip",
+                            "record_created_at",
+                            "sensor:host",
+                            "site:name",
+                            "parents",
+                            "custom_fields_src",
+                            "custom_fields_dst"
+                        },
+                        "total": 5
+                    ]
+                example2:
+                  value:
+                    [
+                      "result": [],
+                      "header": [],
+                      "total": 0
+                    ]
+        '401':
+          description: UnAuthorized           
+        '500':
+          description: Server error
