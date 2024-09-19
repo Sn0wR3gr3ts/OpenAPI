@@ -1,21 +1,71 @@
-openapi: 3.1.0
+openapi: '3.0.2'
 info:
   title: Nozomi Alerts API
   description: OpenAPI specification for the Nozomi Alerts API
-  version: 1.0.0
+  version: '1.0'
+  
 servers:
-  - url: https://ernstyoung.customers.us1.vantage.nozominetworks.io
-    description: Nozomi API Server
-paths:
-  /api/open/query/do:
+- url: https://ernstyoung.customers.us1.vantage.nozominetworks.io
+
+paths: 
+  /api/open/query/do: 
     get:
-      operationId: getAlerts
-      summary: Retreave alerts from API
+      tags:
+      - Complete Nozomi Alert
+      summary: "Calls Nozomi API for alerts"
+      description: "Calls Nozomi API for alerts that have been created within the last 24 hours"
+      operationId: "CurrentAlertsData"
       parameters:
+        - name: exclude
+          in: query
+          description: Properties to exclude
+          required: false
+          schema:
+            type: string
+            example: bpf_filter properties description
+        - name: time
+          in: query
+          description: Time filter
+          required: true
+          schema:
+            type: string
+            example: hours_ago(24)
+        - name: is_incident
+          in: query
+          description: Incident filter
+          required: true
+          schema:
+            type: boolean
+            example: false
+        - name: risk
+          in: query
+          description: Risk level filter
+          required: true
+          schema:
+            type: integer
+            example: 7
       responses:
-        '200':
-          description: Something happened
-        '401':
-          description: UnAuthorized           
-        '500':
-          description: Server error
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: array
+                    items:
+                      type: object
+                  header:
+                    type: array
+                    items:
+                      type: object
+                  total:
+                    type: integer
+                    example: 0
+      404:
+        description: Not found response
+      401:
+        description: UnAuthorized           
+      500:
+        description: Server error
