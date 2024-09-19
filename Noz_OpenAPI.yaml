@@ -16,34 +16,13 @@ paths:
       description: "Calls Nozomi API for alerts that have been created within the last 24 hours"
       operationId: "CurrentAlertsData"
       parameters:
-        - name: exclude
+        - name: query
           in: query
           description: Properties to exclude
           required: false
           schema:
             type: string
-            example: bpf_filter properties description
-        - name: time
-          in: query
-          description: Time filter
-          required: true
-          schema:
-            type: string
-            example: hours_ago(24)
-        - name: is_incident
-          in: query
-          description: Incident filter
-          required: true
-          schema:
-            type: boolean
-            example: false
-        - name: risk
-          in: query
-          description: Risk level filter
-          required: true
-          schema:
-            type: integer
-            example: 7
+            example: alerts | exclude bpf_filter properties description | where time >= hours_ago(24) | where !is_incident | where risk >= 7
       responses:
         200:
           description: Successful response
@@ -63,5 +42,6 @@ paths:
                   total:
                     type: integer
                     example: 0
-      404:
-        description: Not found response
+
+        404:
+          description: Not found response
