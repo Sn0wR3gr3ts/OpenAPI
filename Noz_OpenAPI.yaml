@@ -65,7 +65,3 @@ paths:
                     example: 0
       404:
         description: Not found response
-      401:
-        description: UnAuthorized           
-      500:
-        description: Server error
