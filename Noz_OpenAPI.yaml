@@ -8,7 +8,7 @@ servers:
 - url: https://ernstyoung.customers.us1.vantage.nozominetworks.io
 
 paths: 
-  /api/open/query/do: 
+  /api/open/query/do:
     get:
       tags:
       - Complete Nozomi Alert
@@ -45,3 +45,13 @@ paths:
 
         404:
           description: Not found response
+
+components:
+  securitySchemes:
+    bearerAuth:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    
+
+security:
+  - bearerAuth: [] 
