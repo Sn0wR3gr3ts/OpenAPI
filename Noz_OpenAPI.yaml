@@ -1,8 +1,8 @@
-openapi: '3.0.1'
+openapi: 3.0.0
 info:
   title: Nozomi Alerts API
   description: OpenAPI specification for the Nozomi Alerts API
-  version: '1.0'
+  version: 1.0.0
   
 servers:
 - url: https://ernstyoung.customers.us1.vantage.nozominetworks.io
@@ -12,19 +12,18 @@ paths:
     get:
       tags:
       - Complete Nozomi Alert
-      summary: "Calls Nozomi API for alerts"
-      description: "Calls Nozomi API for alerts that have been created within the last 24 hours"
-      operationId: "CurrentAlertsData"
+      summary: Retrieve alerts
+      description: Calls Nozomi API for alerts that have been created within the last 24 hours
+      operationId: getAlerts
       parameters:
-        - name: query
-          in: query
-          description: Properties to exclude
-          required: false
+        - in: query
+          name: query
+          description: alerts with level 7 our higher within past 24 hours
           schema:
             type: string
-            example: alerts | exclude bpf_filter properties description | where time >= hours_ago(24) | where !is_incident | where risk >= 7
+            example: alerts%20%7C%20exclude%20bpf_filter%20properties%20description%20%7C%20where%20time%20%3E%3D%20hours_ago%2848%29%20%7C%20where%20%21is_incident%20%7C%20where%20risk%20%3E%3D%207
       responses:
-        200:
+        '200':
           description: Successful response
           content:
             application/json:
@@ -42,9 +41,14 @@ paths:
                   total:
                     type: integer
                     example: 0
-
-        404:
-          description: Not found response
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal server error
 
 components:
   securitySchemes:
