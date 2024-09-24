@@ -8,8 +8,8 @@ servers:
 - url: https://ernstyoung.customers.us1.vantage.nozominetworks.io
 
 paths: 
-  /api/open/query/do:
-    get:
+  /api/v1/keys/sign_in:
+    post:
       tags:
       - Complete Nozomi Alert
       summary: Retrieve alerts
@@ -17,11 +17,42 @@ paths:
       operationId: getAlerts
       parameters:
         - in: query
+          name: key_name
+          schema:
+            type: string
+          description: clident ID
+        - in: query
+          name: key_token
+          schema:
+            type: string
+          description: Client Secret
+      responses:
+        '200':
+          description: Bearer token retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+
+  /api/open/query/do:
+    get:
+      tags:
+      - Complete Nozomi Alert
+      summary: Retrieve alerts
+      description: Calls Nozomi API for alerts that have been created within the last 24 hours
+      operationId: getAlerts
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: query
           name: query
           description: alerts with level 7 our higher within past 24 hours
           schema:
             type: string
-            example: alerts%20%7C%20exclude%20bpf_filter%20properties%20description%20%7C%20where%20time%20%3E%3D%20hours_ago%2848%29%20%7C%20where%20%21is_incident%20%7C%20where%20risk%20%3E%3D%207
+            example: alerts | exclude bpf_filter properties description | where time >= hours_ago(216) | where !is_incident | where risk >= 7
       responses:
         '200':
           description: Successful response
@@ -55,7 +86,4 @@ components:
     bearerAuth:            
       type: http
       scheme: bearer
-      bearerFormat: JWT    
-
-security:
-  - bearerAuth: [] 
+      bearerFormat: JWT   
